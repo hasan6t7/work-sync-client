@@ -1,8 +1,20 @@
 import { Link, NavLink } from "react-router";
 import logo from "/logo.png"
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
-
+    const { user } = useAuth();
+    const navlink = <>
+        <li>
+            <NavLink to={"/"}>Home</NavLink>
+        </li>
+        <li>
+            <NavLink to={"/login"}>Login</NavLink>
+        </li>
+        <li>
+            <NavLink to={"/register"}>Register</NavLink>
+        </li>
+    </>
 
     return (
         <div className="pt-3 sticky top-0 z-50 ">
@@ -34,31 +46,28 @@ const Navbar = () => {
                             tabIndex={0}
                             className="menu menu-sm  dropdown-content mt-3 z-[1] p-4 shadow rounded-box w-52"
                         >
-                            <li>
-                                Home
-                            </li>
+                            {navlink}
                         </ul>
                     </div>
                     <div className="flex items-center gap-1 cursor-pointer">
                         <img className="w-[40px] md:w-[60px]" src={logo} alt="logo" />
-                        <h4  className="  text-lg md:text-3xl py-1 font-bold  bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+                        <h4 className="  text-lg md:text-3xl py-1 font-bold  bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
                             <span className="">Work</span>Sync
                         </h4>
                     </div>
                 </div>
-                <div className="navbar-center hidden lg:flex">
+                <div className={user ? "navbar-center hidden lg:flex" : "navbar-end hidden lg:flex"}>
                     <ul className="menu menu-horizontal text-lg px-1 ">
-                        <li>
-                            Home
-                        </li>
+                        {navlink}
                     </ul>
                 </div>
-                <div className="md:navbar-end hidden md:flex">
+                <div className={user ? "md:navbar-end hidden md:flex" : "hidden "}>
 
-                    <button className="btn  bg-transparent  flex items-center md:gap-3 gap-1 border-2 px-1 md:px-3 rounded-md">
-                        Contact
-                        Me
-                    </button>
+                    <div className="avatar">
+                        <div className="h-[45px] w-[45px] ring-green-700 ring-offset-base-100 rounded-full ring-2 ring-offset-2">
+                            <img src={user?.photoURL} referrerPolicy="no-referrer" />
+                        </div>
+                    </div>
 
                 </div>
             </div>
