@@ -12,7 +12,7 @@ const Root = () => {
           <Navbar></Navbar>
         </nav>
       </header>
-      <main>
+      <main className="max-w-7xl mx-auto bg-gradient-to-br from-green-50 to-green-100">
         <section>
           <Outlet></Outlet>
         </section>

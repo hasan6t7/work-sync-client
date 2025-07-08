@@ -22,7 +22,14 @@ const Navbar = () => {
         <NavLink to={"/"}>Home</NavLink>
       </li>
       {user ? (
-        <></>
+        <>
+          <li>
+            <NavLink to={"/dashboard"}>Dashboard</NavLink>
+          </li>
+          <li>
+            <NavLink to={"/contact"}>Contact Us</NavLink>
+          </li>
+        </>
       ) : (
         <>
           {" "}
@@ -66,8 +73,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="pt-3 sticky top-0 z-50 ">
-      <div className="navbar  max-w-full mx-auto lg:px-5 bg-green-50 rounded-2xl">
+    <div className="pt-3 sticky top-0 z-50 max-w-full mx-auto lg:px-5 bg-green-50">
+      <div className="navbar max-w-7xl mx-auto  rounded-2xl">
         <div className="md:navbar-start flex  items-center gap-2">
           <div className="dropdown">
             <div
@@ -96,14 +103,9 @@ const Navbar = () => {
               className="menu menu-sm  dropdown-content mt-3 z-[1] p-4 shadow rounded-box w-52"
             >
               {navlink}
-              
-              
             </ul>
-            
-            
           </div>
-          
-          
+
           <div className="flex items-center gap-1 cursor-pointer">
             <img className="w-[40px] md:w-[60px]" src={logo} alt="logo" />
             <h4 className="  text-lg md:text-3xl py-1 font-bold  bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
@@ -148,11 +150,11 @@ const Navbar = () => {
                     alt="User"
                     className="w-24 h-24 rounded-full ring-2 ring-green-600 object-cover"
                   />
-                  <h3 className="font-bold text-lg">{user?.displayName}</h3>
-                  <p className="text-sm text-gray-500">{user?.email}</p>
+                  <h3 className="font-bold text-xl">{user?.displayName}</h3>
+                  <p className="text-lg text-gray-500">{user?.email}</p>
                   <button
                     onClick={handleLogOut}
-                    className="btn bg-green-600 text-white hover:bg-green-700 mt-4"
+                    className="btn bg-green-600  text-white hover:bg-green-700 mt-4"
                   >
                     Logout
                   </button>
