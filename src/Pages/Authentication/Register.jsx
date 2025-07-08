@@ -63,18 +63,6 @@ const Register = () => {
         toast.error(error.message);
       });
   };
-  const handleLogInWithGoogle = () => {
-    logInWithGoogle()
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        toast.success("Login Successfully Done");
-        navigate(`${location.state ? location.state : "/"}`);
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
-  };
 
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];
@@ -89,6 +77,38 @@ const Register = () => {
     const res = await axios.post(imagUploadUrl, formData);
 
     setProfilePic(res.data.data.url);
+  };
+
+  const handleLogInWithGoogle = async () => {
+    try {
+      const result = await logInWithGoogle();
+      const user = result.user;
+      setUser(user);
+
+      const userInfo = {
+        name: user?.displayName,
+        email: user?.email,
+        photo: user?.photoURL,
+        role: "Employee", 
+        bank_account_no: "N/A",
+        salary: 0,
+        designation: "Employee",
+        created_at: new Date().toISOString(),
+      };
+
+      const userRes = await axiosInstance.post("/users", userInfo);
+
+      if (userRes.data.insertedId) {
+        toast.success("Google account registered and saved to database!");
+      } else {
+        toast.info("Welcome back! Proceeding to dashboard.");
+      }
+
+      toast.success("Login Successfully Done!");
+      navigate(location.state?.from?.pathname || "/");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -150,7 +170,7 @@ const Register = () => {
           <label className="label font-semibold ">Role</label>
           <select name="role" defaultValue="Select Role" className="select">
             <option disabled={true}>Select Role</option>
-            <option>user</option>
+            <option>Employee</option>
             <option>HR</option>
           </select>
 

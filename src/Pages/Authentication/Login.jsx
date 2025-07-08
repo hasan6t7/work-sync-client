@@ -3,12 +3,14 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const Login = () => {
   const location = useLocation();
   //   const [email, setEmail] = useState("");
   const { logInUser, setUser, logInWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const axiosInstance = useAxios();
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -19,26 +21,45 @@ const Login = () => {
         const user = result.user;
 
         setUser(user);
-        console.log(user)
+        console.log(user);
         toast.success("Login Successfully Done");
         navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
-        console.log("error from hasan",error.message)
+        console.log("error from hasan", error.message);
         toast.error(error.message);
       });
   };
-  const handleLogInWithGoogle = () => {
-    logInWithGoogle()
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        toast.success("Login Successfully Done");
-        navigate(`${location.state ? location.state : "/"}`);
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
+  const handleLogInWithGoogle = async () => {
+    try {
+      const result = await logInWithGoogle();
+      const user = result.user;
+      setUser(user);
+
+      const userInfo = {
+        name: user?.displayName,
+        email: user?.email,
+        photo: user?.photoURL,
+        role: "Employee",
+        bank_account_no: "N/A",
+        salary: 0,
+        designation: "Employee",
+        created_at: new Date().toISOString(),
+      };
+
+      const userRes = await axiosInstance.post("/users", userInfo);
+
+      if (userRes.data.insertedId) {
+        toast.success("Google account registered and saved to database!");
+      } else {
+        toast.info("Welcome back! Proceeding to dashboard.");
+      }
+
+      toast.success("Login Successfully Done!");
+      navigate(location.state?.from?.pathname || "/");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (

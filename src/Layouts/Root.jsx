@@ -4,6 +4,7 @@ import { Outlet } from "react-router";
 import { ToastContainer } from "react-toastify";
 import "aos/dist/aos.css";
 import AOS from "aos";
+import Footer from "../Components/Footer/Footer";
 
 const Root = () => {
   useEffect(() => {
@@ -22,6 +23,9 @@ const Root = () => {
           <Outlet></Outlet>
         </section>
       </main>
+      <footer>
+        <Footer></Footer>
+      </footer>
     </div>
   );
 };

@@ -21,12 +21,16 @@ const CaseStudies = () => {
   ];
   return (
     <section className="max-w-5xl mx-auto px-6 py-12">
-      <h2 className="text-3xl md:text-4xl font-bold text-center text-green-600 mb-8">
+      <h2
+        data-aos="fade-right"
+        className="text-3xl md:text-4xl font-bold text-center text-green-600 mb-20"
+      >
         Case Studies & Success Stories
       </h2>
       <div className="grid md:grid-cols-2 gap-6">
         {caseStudies.map((study, index) => (
           <div
+            data-aos="zoom-in-up"
             key={index}
             className="bg-white border border-green-200 rounded-2xl p-6 shadow hover:shadow-lg transition"
           >
