@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import { Laptop, ArrowRight } from "lucide-react";
-import "aos/dist/aos.css";
-import AOS from "aos";
+import { ArrowRight } from "lucide-react";
+
 
 const Banner = () => {
-  useEffect(() => {
-    AOS.init({ duration: 2000, once: true });
-  }, []);
+  
   return (
     <section className="flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12   min-h-[70vh]">
       <div

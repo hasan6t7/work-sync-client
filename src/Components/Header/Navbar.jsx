@@ -73,7 +73,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="pt-3 sticky top-0 z-50 max-w-full mx-auto lg:px-5 bg-green-50">
+    <div className="pt-3 sticky top-0 z-50 max-w-full mx-auto lg:px-5 bg-green-50 border-b border-green-200">
       <div className="navbar max-w-7xl mx-auto  rounded-2xl">
         <div className="md:navbar-start flex  items-center gap-2">
           <div className="dropdown">

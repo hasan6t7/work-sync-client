@@ -4,7 +4,10 @@ import React from "react";
 const Services = () => {
   return (
     <section className="py-16 px-6 md:px-16 ">
-      <h2 className="text-4xl font-extrabold text-green-600 text-center mb-16">
+      <h2
+        data-aos="fade-right"
+        className="text-4xl font-bold text-green-600 text-center mb-16"
+      >
         Services We Provide
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 ">
@@ -26,6 +29,7 @@ const Services = () => {
           },
         ].map(({ icon, title, desc }, idx) => (
           <div
+            data-aos="zoom-in-up"
             key={idx}
             className="bg-white rounded-xl p-8 shadow-md hover:shadow-xl hover:scale-105 transform transition duration-300 border-t-4 border-b-4 border-green-500 cursor-pointer"
           >
