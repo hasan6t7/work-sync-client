@@ -1,43 +1,50 @@
-import axios from 'axios';
-import React from 'react';
-import useAuth from './useAuth';
-import { useNavigate } from 'react-router';
+import { useEffect } from "react";
+import axios from "axios";
+import useAuth from "./useAuth";
+import { useNavigate } from "react-router";
 
 const axiosSecure = axios.create({
-    baseURL: `http://localhost:3000`
-}); 
+  baseURL: `http://localhost:3000`,
+});
 
 const useAxiosSecure = () => {
-    const { user, logOut } = useAuth();
-    const navigate = useNavigate();
+  const { user, logOut } = useAuth();
+  const navigate = useNavigate();
 
-    axiosSecure.interceptors.request.use(config => {
-        config.headers.Authorization = `Bearer ${user.accessToken}`
+  useEffect(() => {
+    const requestInterceptor = axiosSecure.interceptors.request.use(
+      (config) => {
+        if (user?.accessToken) {
+          config.headers.Authorization = `Bearer ${user.accessToken}`;
+        }
         return config;
-    }, error => {
-        return Promise.reject(error);
-    })
+      },
+      (error) => Promise.reject(error)
+    );
 
-    axiosSecure.interceptors.response.use(res => {
-        return res;
-    }, error => {
-        const status = error.status;
+    const responseInterceptor = axiosSecure.interceptors.response.use(
+      (res) => res,
+      (error) => {
+        const status = error.response?.status;
         if (status === 403) {
-            navigate('/forbidden');
+          navigate("/forbidden");
+        } else if (status === 401) {
+          logOut()
+            .then(() => navigate("/login"))
+            .catch(() => {});
         }
-        else if (status === 401) {
-            logOut()
-                .then(() => {
-                    navigate('/login')
-                })
-                .catch(() => { })
-        }
-
         return Promise.reject(error);
-    })
+      }
+    );
 
+    
+    return () => {
+      axiosSecure.interceptors.request.eject(requestInterceptor);
+      axiosSecure.interceptors.response.eject(responseInterceptor);
+    };
+  }, [user?.accessToken, logOut, navigate]);
 
-    return axiosSecure;
+  return axiosSecure;
 };
 
 export default useAxiosSecure;

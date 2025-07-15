@@ -43,16 +43,26 @@ const Login = () => {
         role: "Employee",
         bank_account_no: "N/A",
         salary: 0,
+        verified: false,
         designation: "Employee",
         created_at: new Date().toISOString(),
       };
 
-      const userRes = await axiosInstance.post("/users", userInfo);
+      try {
+        const userRes = await axiosInstance.post("/users", userInfo);
 
-      if (userRes.data.insertedId) {
-        toast.success("Google account registered and saved to database!");
-      } else {
-        toast.info("Welcome back! Proceeding to dashboard.");
+        if (userRes.data.insertedId) {
+          toast.success("Google account registered and saved to database!");
+        } else {
+          toast.info("Welcome back! ");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+         
+          navigate(`${location.state ? location.state : "/"}`);
+        } else {
+          throw error;
+        }
       }
 
       toast.success("Login Successfully Done!");

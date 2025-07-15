@@ -1,24 +1,36 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router";
-import useAuth from "../hooks/useAuth";
+import { NavLink, Outlet, useNavigate } from "react-router";
 import logo from "/logo.png";
+import useUserRole from "../hooks/useUserRole";
+import { AiFillHome } from "react-icons/ai";
+import { BsFileEarmarkText } from "react-icons/bs";
+import { FaMoneyCheckAlt, FaUsers } from "react-icons/fa";
 
 const DashLayout = () => {
-  const { user } = useAuth();
-  console.log(user)
+  const navigate = useNavigate();
+  const { role, roleLoading } = useUserRole();
+
+  if (roleLoading || !role) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-lg text-green-600"></span>
+      </div>
+    );
+  }
+
+  
+  console.log("Role from DB:", role);
 
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+
+      {/* MAIN CONTENT */}
       <div className="drawer-content flex flex-col">
-        {/* Navbar */}
+        {/* Mobile Navbar */}
         <div className="navbar bg-base-300 w-full lg:hidden">
           <div className="flex-none">
-            <label
-              htmlFor="my-drawer-2"
-              aria-label="open sidebar"
-              className="btn btn-square btn-ghost"
-            >
+            <label htmlFor="my-drawer-2" className="btn btn-square btn-ghost">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -30,63 +42,73 @@ const DashLayout = () => {
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M4 6h16M4 12h16M4 18h16"
-                ></path>
+                />
               </svg>
             </label>
           </div>
-          <div className="mx-2 flex-1 px-2 lg:hidden font-semibold">
-            Dashboard
-          </div>
+          <div className="mx-2 flex-1 px-2 font-semibold">Dashboard</div>
         </div>
 
-        {/* Page Content */}
+        {/* Routed Page Content */}
         <div className="p-4">
           <Outlet />
         </div>
       </div>
 
-      {/* Sidebar */}
+      {/* SIDEBAR */}
       <div className="drawer-side">
-        <label
-          htmlFor="my-drawer-2"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
+        <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 space-y-1">
-          {/* Sidebar Menu Items */}
-          <div className="space-y-3 flex gap-1">
-            <img src={logo} alt="WorkSync Logo" className="h-12" />
-            <h4 className="  text-lg md:text-3xl py-1 font-bold  bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-              <span className="">Work</span>Sync
+          {/* Logo */}
+          <div
+            onClick={()=> navigate("/")}
+            className="flex items-center gap-2 mb-4 cursor-pointer"
+          >
+            <img src={logo} alt="WorkSync Logo" className="h-10" />
+            <h4 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+              WorkSync
             </h4>
           </div>
-          <li>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive ? "bg-green-200 font-semibold" : ""
-              }
-            >
-              🏠 Dashboard Home
+
+          {/* Universal Dashboard Home */}
+          <li className="font-bold">
+            <NavLink to="/dashboard">
+              <AiFillHome size={20} /> Dashboard Home
             </NavLink>
           </li>
 
-          {/* Role-based navigation */}
-          {user?.role === "Employee" && (
+          {/* Role-based Sidebar */}
+          {role === "Employee" && (
             <>
-              
+              <li className="font-bold">
+                <NavLink to="/dashboard/work-sheet">
+                  <BsFileEarmarkText size={20} /> Work Sheet
+                </NavLink>
+              </li>
+              <li className="font-bold">
+                <NavLink to="/dashboard/payment-history">
+                  <FaMoneyCheckAlt size={20} /> Payment History
+                </NavLink>
+              </li>
             </>
           )}
 
-          {user?.role === "HR" && (
+          {role === "HR" && (
             <>
-              
+              <li className="font-bold">
+                <NavLink to="/dashboard/employee-list"><FaUsers size={20} /> Employee List</NavLink>
+              </li>
             </>
           )}
 
-          {user?.role === "Admin" && (
+          {role === "Admin" && (
             <>
-             
+              <li>
+                <NavLink to="/dashboard/all-employee-list">
+                  gf
+                </NavLink>
+              </li>
             </>
           )}
         </ul>

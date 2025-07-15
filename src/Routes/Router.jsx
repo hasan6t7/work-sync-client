@@ -4,6 +4,9 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Authentication/Login";
 import Register from "../Pages/Authentication/Register";
 import DashLayout from "../Layouts/DashLayout";
+import DashboardHome from "../Pages/Dashboard/DashHome/DashboardHome";
+import EmployeeWorkSheet from "../Pages/Dashboard/Employee/EmployeeWorkSheet";
+
 
 const router = createBrowserRouter([
   {
@@ -27,6 +30,17 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashLayout></DashLayout>,
+    children: [
+      {
+        index: true,
+        element: <DashboardHome></DashboardHome>,
+      },
+      {
+        path: "/dashboard/work-sheet",
+        element: <EmployeeWorkSheet></EmployeeWorkSheet>,
+      },
+     
+    ],
   },
 ]);
 
