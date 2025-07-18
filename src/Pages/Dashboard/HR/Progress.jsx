@@ -10,7 +10,6 @@ const Progress = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  
   useEffect(() => {
     axiosSecure
       .get("/employees")
@@ -18,7 +17,6 @@ const Progress = () => {
       .catch((err) => console.error(err));
   }, [axiosSecure]);
 
-  // Fetch progress data based on filters
   useEffect(() => {
     setLoading(true);
     setError("");
@@ -53,9 +51,9 @@ const Progress = () => {
     <div className="max-w-6xl mx-auto p-4">
       <h1 className="text-2xl font-bold text-center mb-6">Employee Progress</h1>
 
-      <div className="flex flex-wrap gap-4 justify-center mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center mb-6">
         <select
-          className="select select-bordered"
+          className="select select-bordered w-full"
           value={selectedEmployee}
           onChange={(e) => setSelectedEmployee(e.target.value)}
         >
@@ -68,7 +66,7 @@ const Progress = () => {
         </select>
 
         <select
-          className="select select-bordered"
+          className="select select-bordered w-full"
           value={selectedMonth}
           onChange={(e) => setSelectedMonth(e.target.value)}
         >
@@ -94,7 +92,7 @@ const Progress = () => {
         </select>
 
         <button
-          className="btn btn-sm btn-outline"
+          className="btn btn-outline w-full"
           onClick={() => {
             setSelectedEmployee("");
             setSelectedMonth("");
@@ -126,10 +124,7 @@ const Progress = () => {
                 <tr key={record._id}>
                   <td>{idx + 1}</td>
                   <td>
-                    
-                    <span className="">
-                      {record.email}
-                    </span>
+                    <span>{record.email}</span>
                   </td>
                   <td>{record.task}</td>
                   <td>{record.hoursWorked}</td>
