@@ -6,7 +6,9 @@ import Register from "../Pages/Authentication/Register";
 import DashLayout from "../Layouts/DashLayout";
 import DashboardHome from "../Pages/Dashboard/DashHome/DashboardHome";
 import EmployeeWorkSheet from "../Pages/Dashboard/Employee/EmployeeWorkSheet";
-
+import EmployeeList from "../Pages/Dashboard/HR/EmployeeList";
+import EmployeeDetails from "../Pages/Dashboard/HR/EmployeeDetails";
+import Progress from "../Pages/Dashboard/HR/Progress";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +41,18 @@ const router = createBrowserRouter([
         path: "/dashboard/work-sheet",
         element: <EmployeeWorkSheet></EmployeeWorkSheet>,
       },
-     
+      {
+        path: "/dashboard/employee-list",
+        element: <EmployeeList></EmployeeList>,
+      },
+      {
+        path: "/dashboard/details/:slug",
+        element: <EmployeeDetails></EmployeeDetails>,
+      },
+      {
+        path: "/dashboard/progress",
+        element: <Progress></Progress>,
+      },
     ],
   },
 ]);

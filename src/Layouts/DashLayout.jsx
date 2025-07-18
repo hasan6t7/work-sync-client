@@ -5,6 +5,7 @@ import useUserRole from "../hooks/useUserRole";
 import { AiFillHome } from "react-icons/ai";
 import { BsFileEarmarkText } from "react-icons/bs";
 import { FaMoneyCheckAlt, FaUsers } from "react-icons/fa";
+import { TbProgress } from "react-icons/tb";
 
 const DashLayout = () => {
   const navigate = useNavigate();
@@ -98,6 +99,9 @@ const DashLayout = () => {
             <>
               <li className="font-bold">
                 <NavLink to="/dashboard/employee-list"><FaUsers size={20} /> Employee List</NavLink>
+              </li>
+              <li className="font-bold">
+                <NavLink to="/dashboard/progress"><TbProgress size={20} /> Progress</NavLink>
               </li>
             </>
           )}
