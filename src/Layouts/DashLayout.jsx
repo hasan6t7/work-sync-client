@@ -113,6 +113,11 @@ const DashLayout = () => {
                   All Employee List
                 </NavLink>
               </li>
+              <li>
+                <NavLink to="/dashboard/payroll">
+                  Payroll
+                </NavLink>
+              </li>
             </>
           )}
         </ul>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-
 import Swal from "sweetalert2";
 
 const AllEmployeeList = () => {
   const axiosSecure = useAxiosSecure();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isTableView, setIsTableView] = useState(true);
 
   useEffect(() => {
     axiosSecure
@@ -38,12 +38,11 @@ const AllEmployeeList = () => {
     });
 
     if (!confirmResult.isConfirmed) {
-      return; // user cancelled
+      return;
     }
 
     try {
       await axiosSecure.patch(`/users/${id}/role`);
-
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user._id === id ? { ...user, role: "HR" } : user
@@ -84,7 +83,6 @@ const AllEmployeeList = () => {
 
     try {
       await axiosSecure.patch(`/users/${id}/fire`);
-
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user._id === id ? { ...user, fired: true } : user
@@ -113,71 +111,125 @@ const AllEmployeeList = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-xl font-semibold mb-4">Verified Employees</h2>
-      <div className="overflow-x-auto rounded-lg shadow">
-        <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-4 py-2 text-left font-semibold text-gray-700">
-                Name
-              </th>
-              <th className="px-4 py-2 text-left font-semibold text-gray-700">
-                Designation
-              </th>
-              <th className="px-4 py-2 text-left font-semibold text-gray-700">
-                Make HR
-              </th>
-              <th className="px-4 py-2 text-left font-semibold text-gray-700">
-                Fire
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {verifiedEmployees.length === 0 ? (
+    <div className="max-w-5xl mx-auto p-4">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">Verified Employees</h2>
+        <button
+          onClick={() => setIsTableView(!isTableView)}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
+          Switch to {isTableView ? "Card Grid View" : "Table View"}
+        </button>
+      </div>
+
+      {isTableView ? (
+        <div className="overflow-x-auto rounded-lg shadow">
+          <table className="min-w-full divide-y divide-gray-200 text-sm">
+            <thead className="bg-gray-50">
               <tr>
-                <td colSpan="4" className="text-center py-4 text-gray-500">
-                  No verified employees found.
-                </td>
+                <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                  Name
+                </th>
+                <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                  Designation
+                </th>
+                <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                  Make HR
+                </th>
+                <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                  Fire
+                </th>
               </tr>
-            ) : (
-              verifiedEmployees.map((employee) => (
-                <tr key={employee._id}>
-                  <td className="px-4 py-2">{employee.name}</td>
-                  <td className="px-4 py-2">{employee.designation}</td>
-                  <td className="px-4 py-2">
-                    <button
-                      onClick={() => makeHR(employee._id)}
-                      disabled={employee.role === "HR"}
-                      className={`px-3 py-1 rounded text-xs ${
-                        employee.role === "HR"
-                          ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                          : "bg-blue-500 text-white cursor-pointer hover:bg-blue-600"
-                      }`}
-                    >
-                      {employee.role === "HR" ? "Already HR" : "Make HR"}
-                    </button>
-                  </td>
-                  <td className="px-4 py-2">
-                    {employee.fired ? (
-                      <span className="text-red-500 font-semibold text-xs">
-                        Fired
-                      </span>
-                    ) : (
-                      <button
-                        onClick={() => fireEmployee(employee._id)}
-                        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
-                      >
-                        Fire
-                      </button>
-                    )}
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {verifiedEmployees.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="text-center py-4 text-gray-500">
+                    No verified employees found.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              ) : (
+                verifiedEmployees.map((employee) => (
+                  <tr key={employee._id}>
+                    <td className="px-4 py-2">{employee.name}</td>
+                    <td className="px-4 py-2">{employee.designation}</td>
+                    <td className="px-4 py-2">
+                      <button
+                        onClick={() => makeHR(employee._id)}
+                        disabled={employee.role === "HR"}
+                        className={`px-3 py-1 rounded text-xs ${
+                          employee.role === "HR"
+                            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                            : "bg-blue-500 text-white hover:bg-blue-600"
+                        }`}
+                      >
+                        {employee.role === "HR" ? "Already HR" : "Make HR"}
+                      </button>
+                    </td>
+                    <td className="px-4 py-2">
+                      {employee.fired ? (
+                        <span className="text-red-500 font-semibold text-xs">
+                          Fired
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => fireEmployee(employee._id)}
+                          className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
+                        >
+                          Fire
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {verifiedEmployees.length === 0 ? (
+            <p className="text-gray-500">No verified employees found.</p>
+          ) : (
+            verifiedEmployees.map((employee) => (
+              <div
+                key={employee._id}
+                className="border rounded-lg p-4 shadow hover:shadow-md transition"
+              >
+                <h3 className="text-lg font-semibold">{employee.name}</h3>
+                <p className="text-sm text-gray-600 mb-2">
+                  {employee.designation}
+                </p>
+                <div className="flex gap-2 flex-wrap">
+                  <button
+                    onClick={() => makeHR(employee._id)}
+                    disabled={employee.role === "HR"}
+                    className={`px-3 py-1 rounded text-xs ${
+                      employee.role === "HR"
+                        ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                        : "bg-blue-500 text-white hover:bg-blue-600"
+                    }`}
+                  >
+                    {employee.role === "HR" ? "Already HR" : "Make HR"}
+                  </button>
+                  {employee.fired ? (
+                    <span className="text-red-500 font-semibold text-xs">
+                      Fired
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => fireEmployee(employee._id)}
+                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
+                    >
+                      Fire
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };

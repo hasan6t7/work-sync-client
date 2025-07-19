@@ -74,6 +74,7 @@ const EmployeeList = () => {
       employee_name: payEmp.name,
       employee_email: payEmp.email,
       salary: payEmp.salary,
+      bank_account_no: payEmp.bank_account_no,
       month: payMonth,
       year: payYear,
       status: "Pending",
