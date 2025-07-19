@@ -5,14 +5,15 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 
 const EmployeeList = () => {
-  //   const [selectedEmp, setSelectedEmp] = useState(null);
   const [empList, setEmpList] = useState([]);
   const [payEmp, setPayEmp] = useState(null);
   const [payMonth, setPayMonth] = useState("");
   const [payYear, setPayYear] = useState("");
-  const navigate = useNavigate();
+  const [isTableView, setIsTableView] = useState(true); // <-- toggle state
 
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
+
   useEffect(() => {
     axiosSecure.get("/employees").then((res) => setEmpList(res.data));
   }, [axiosSecure]);
@@ -51,8 +52,7 @@ const EmployeeList = () => {
               });
             }
           })
-          .catch((err) => {
-            console.error(err);
+          .catch(() => {
             Swal.fire({
               title: "Error",
               text: "Something went wrong!",
@@ -93,65 +93,133 @@ const EmployeeList = () => {
           setPayEmp(null);
         }
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
         Swal.fire("Error", "Something went wrong", "error");
       });
   };
 
   return (
     <div>
-      <h1 className="font-bold text-2xl mb-10">Employee List</h1>
-      <table className="table table-zebra">
-        {/* head */}
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Verified</th>
-            <th>Bank Account</th>
-            <th>Salary</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* row */}
+      <h1 className="font-bold text-2xl mb-4">Employee List</h1>
 
-          {empList.map((emp, index) => (
-            <tr key={index}>
-              <th>{index + 1}</th>
-              <td>{emp.name}</td>
-              <td>{emp.email}</td>
-              <td>
+      {/* Toggle Button */}
+      <button
+        onClick={() => setIsTableView(!isTableView)}
+        className="btn btn-primary mb-6"
+      >
+        {isTableView ? "Switch to Card View" : "Switch to Table View"}
+      </button>
+
+      {/* Table View */}
+      {isTableView && (
+        <table className="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Verified</th>
+              <th>Bank Account</th>
+              <th>Salary</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {empList.map((emp, index) => (
+              <tr key={emp._id}>
+                <th>{index + 1}</th>
+                <td>{emp.name}</td>
+                <td>{emp.email}</td>
+                <td>
+                  <button
+                    onClick={() => handleToggleVerified(emp._id, emp.verified)}
+                    className="btn btn-sm"
+                  >
+                    {emp.verified === false ? (
+                      <>
+                        False <AiOutlineClose size={20} color="red" />
+                      </>
+                    ) : (
+                      <>
+                        True <AiOutlineCheck size={20} color="green" />
+                      </>
+                    )}
+                  </button>
+                </td>
+                <td>{emp.bank_account_no}</td>
+                <td>{emp.salary}</td>
+                <td className="flex gap-2">
+                  <button
+                    onClick={() => navigate(`/dashboard/details/${emp._id}`)}
+                    className="btn btn-sm"
+                  >
+                    Details
+                  </button>
+                  <button
+                    className={`btn btn-sm ${
+                      !emp.verified ? "cursor-not-allowed" : ""
+                    }`}
+                    disabled={!emp.verified}
+                    onClick={() => {
+                      setPayEmp(emp);
+                      setPayMonth("");
+                      setPayYear("");
+                    }}
+                  >
+                    Pay
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {/* Card Grid View */}
+      {!isTableView && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {empList.map((emp) => (
+            <div
+              key={emp._id}
+              className="border rounded-lg p-4 shadow hover:shadow-lg transition"
+            >
+              <h2 className="text-xl font-semibold mb-2">{emp.name}</h2>
+              <p>
+                <strong>Email:</strong> {emp.email}
+              </p>
+              <p className="flex items-center">
+                <strong>Verified:</strong>
                 <button
-                  onClick={() => handleToggleVerified(emp._id)}
-                  className="btn btn-sm"
+                  onClick={() => handleToggleVerified(emp._id, emp.verified)}
+                  className="ml-2 btn btn-sm"
                 >
                   {emp.verified === false ? (
                     <>
-                      False <AiOutlineClose size={20} color="red" />
+                      False <AiOutlineClose size={16} color="red" />
                     </>
                   ) : (
                     <>
-                      True <AiOutlineCheck size={20} color="green" />
+                      True <AiOutlineCheck size={16} color="green" />
                     </>
                   )}
                 </button>
-              </td>
-              <td>{emp.bank_account_no}</td>
-              <td>{emp.salary}</td>
-
-              <td className="flex gap-2">
+              </p>
+              <p>
+                <strong>Bank Account:</strong> {emp.bank_account_no}
+              </p>
+              <p>
+                <strong>Salary:</strong> {emp.salary}
+              </p>
+              <div className="flex gap-2 mt-3">
                 <button
                   onClick={() => navigate(`/dashboard/details/${emp._id}`)}
-                  className="btn btn-sm"
+                  className="btn btn-sm flex-grow"
                 >
                   Details
                 </button>
                 <button
-                  className={`btn btn-sm ${
-                    !emp.verified ? " cursor-not-allowed" : ""
+                  className={`btn btn-sm flex-grow ${
+                    !emp.verified ? "cursor-not-allowed" : ""
                   }`}
                   disabled={!emp.verified}
                   onClick={() => {
@@ -162,51 +230,13 @@ const EmployeeList = () => {
                 >
                   Pay
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {/*--------- details modal --------- */}
-      {/* {selectedEmp && (
-        <dialog
-          id="details_modal"
-          className="modal modal-bottom sm:modal-middle"
-          open
-        >
-          <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">
-              {selectedEmp.name}'s Details
-            </h3>
-            <p>
-              <strong>Email:</strong> {selectedEmp.email}
-            </p>
-            <p>
-              <strong>Verified:</strong> {selectedEmp.verified ? "Yes " : "No "}
-            </p>
-            <p>
-              <strong>Bank Account:</strong> {selectedEmp.bank_account_no}
-            </p>
-            <p>
-              <strong>Salary:</strong> {selectedEmp.salary}
-            </p>
-            <p>
-              <strong>Designation:</strong> {selectedEmp.designation}
-            </p>
-            <p>
-              <strong>Role:</strong> {selectedEmp.role}
-            </p>
-
-            <div className="modal-action">
-              <button className="btn" onClick={() => setSelectedEmp(null)}>
-                Close
-              </button>
+              </div>
             </div>
-          </div>
-        </dialog>
-      )} */}
+          ))}
+        </div>
+      )}
 
-      {/*---------------- pay modal ------------- */}
+      {/* Pay Modal */}
       {payEmp && (
         <dialog
           id="pay_modal"
