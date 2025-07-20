@@ -7,21 +7,38 @@ import useAxios from "../../hooks/useAxios";
 
 const Login = () => {
   const location = useLocation();
-  //   const [email, setEmail] = useState("");
-  const { logInUser, setUser, logInWithGoogle } = useAuth();
+  const { logInUser, setUser, logInWithGoogle, logOutUser } = useAuth();
   const navigate = useNavigate();
   const axiosInstance = useAxios();
+
+  const checkIfFiredAndProceed = async (email) => {
+    try {
+      const res = await axiosInstance.get(`/users/email/${email}`);
+      const userInfo = res.data;
+      if (userInfo && userInfo.fired === true) {
+        toast.error("Your account has been deactivated. Please contact HR.");
+        await logOutUser();
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error("Error checking fired status:", error);
+      toast.error("Error verifying account status.");
+      return false;
+    }
+  };
+
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     logInUser(email, password)
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
-
+        const canProceed = await checkIfFiredAndProceed(user.email);
+        if (!canProceed) return;
         setUser(user);
-        console.log(user);
         toast.success("Login Successfully Done");
         navigate(`${location.state ? location.state : "/"}`);
       })
@@ -30,10 +47,13 @@ const Login = () => {
         toast.error(error.message);
       });
   };
+
   const handleLogInWithGoogle = async () => {
     try {
       const result = await logInWithGoogle();
       const user = result.user;
+      const canProceed = await checkIfFiredAndProceed(user.email);
+      if (!canProceed) return;
       setUser(user);
 
       const userInfo = {
@@ -50,7 +70,6 @@ const Login = () => {
 
       try {
         const userRes = await axiosInstance.post("/users", userInfo);
-
         if (userRes.data.insertedId) {
           toast.success("Google account registered and saved to database!");
         } else {
@@ -58,7 +77,6 @@ const Login = () => {
         }
       } catch (error) {
         if (error.response && error.response.status === 409) {
-         
           navigate(`${location.state ? location.state : "/"}`);
         } else {
           throw error;
