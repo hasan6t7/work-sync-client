@@ -1,5 +1,8 @@
 import React from "react";
 import useUserRole from "../../../hooks/useUserRole";
+import HRDashboardHome from "../HR/HrHome";
+import AdminDashboardHome from "../Admin/AdminHome";
+import EmployeeDashboardHome from "../Employee/EmpDashHome";
 
 const DashboardHome = () => {
   const { role, roleLoading } = useUserRole();
@@ -12,11 +15,11 @@ const DashboardHome = () => {
   }
 
   if (role === "Admin") {
-    return <p>Admin</p>;
+    return <AdminDashboardHome></AdminDashboardHome>;
   } else if (role === "Employee") {
-    return <p>Employee</p>;
+    return <EmployeeDashboardHome></EmployeeDashboardHome>;
   } else if (role === "HR") {
-    return <p>HR</p>;
+    return <HRDashboardHome></HRDashboardHome>;
   } else {
     return <p>Unathorized</p>;
   }

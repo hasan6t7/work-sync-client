@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import Loader from "../../../Components/Loader/Loader";
 
 const AllEmployeeList = () => {
   const axiosSecure = useAxiosSecure();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isTableView, setIsTableView] = useState(true);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [newSalary, setNewSalary] = useState("");
 
   useEffect(() => {
     axiosSecure
@@ -106,14 +109,91 @@ const AllEmployeeList = () => {
     }
   };
 
+  const openAdjustSalaryModal = (user) => {
+    setSelectedUser(user);
+    setNewSalary("");
+    document.getElementById("adjust_salary_modal").showModal();
+  };
+
+  const handleAdjustSalary = async () => {
+    if (!newSalary || Number(newSalary) <= selectedUser.salary) {
+      document.getElementById("adjust_salary_modal").close();
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Salary",
+        text: "New salary must be greater than current salary.",
+      });
+      return;
+    }
+
+    try {
+      await axiosSecure.patch(`/users/${selectedUser._id}/adjust-salary`, {
+        newSalary: Number(newSalary),
+      });
+      setUsers((prev) =>
+        prev.map((u) =>
+          u._id === selectedUser._id ? { ...u, salary: Number(newSalary) } : u
+        )
+      );
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Salary updated successfully.",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      document.getElementById("adjust_salary_modal").close();
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to update salary.",
+      });
+    }
+  };
+
   if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return <Loader></Loader>
   }
 
   return (
     <div className="max-w-5xl mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Verified Employees</h2>
+      {/* Adjust Salary Modal */}
+      <dialog id="adjust_salary_modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Adjust Salary</h3>
+          {selectedUser && (
+            <div className="mt-4 space-y-2">
+              <p>
+                <strong>Name:</strong> {selectedUser.name}
+              </p>
+              <p>
+                <strong>Current Salary:</strong> ${selectedUser.salary}
+              </p>
+              <input
+                type="number"
+                placeholder="Enter new salary"
+                className="input input-bordered w-full"
+                value={newSalary}
+                onChange={(e) => setNewSalary(e.target.value)}
+              />
+            </div>
+          )}
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn">Close</button>
+            </form>
+            <button onClick={handleAdjustSalary} className="btn btn-primary">
+              Update Salary
+            </button>
+          </div>
+        </div>
+      </dialog>
+
+      <div className="lg:flex lg:justify-between lg:items-center mb-4">
+        <h2 className="text-xl font-semibold mb-2 lg:mb-0">Verified Employees</h2>
+        <br />
         <button
           onClick={() => setIsTableView(!isTableView)}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
@@ -139,12 +219,15 @@ const AllEmployeeList = () => {
                 <th className="px-4 py-2 text-left font-semibold text-gray-700">
                   Fire
                 </th>
+                <th className="px-4 py-2 text-left font-semibold text-gray-700">
+                  Adjust Salary
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {verifiedEmployees.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="text-center py-4 text-gray-500">
+                  <td colSpan="5" className="text-center py-4 text-gray-500">
                     No verified employees found.
                   </td>
                 </tr>
@@ -180,6 +263,14 @@ const AllEmployeeList = () => {
                         </button>
                       )}
                     </td>
+                    <td className="px-4 py-2">
+                      <button
+                        onClick={() => openAdjustSalaryModal(employee)}
+                        className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-xs"
+                      >
+                        Adjust Salary
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}
@@ -194,7 +285,7 @@ const AllEmployeeList = () => {
             verifiedEmployees.map((employee) => (
               <div
                 key={employee._id}
-                className="border rounded-lg p-4 shadow hover:shadow-md transition"
+                className="border border-green-300 rounded-lg p-4 shadow hover:shadow-xl transition"
               >
                 <h3 className="text-lg font-semibold">{employee.name}</h3>
                 <p className="text-sm text-gray-600 mb-2">
@@ -224,6 +315,12 @@ const AllEmployeeList = () => {
                       Fire
                     </button>
                   )}
+                  <button
+                    onClick={() => openAdjustSalaryModal(employee)}
+                    className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-xs"
+                  >
+                    Adjust Salary
+                  </button>
                 </div>
               </div>
             ))

@@ -108,7 +108,7 @@ const Progress = () => {
       <div className="flex justify-center mb-4">
         <button
           onClick={() => setIsTableView(!isTableView)}
-          className="btn btn-primary"
+          className="btn bg-green-500 w-full lg:w-1/3"
         >
           {isTableView ? "Switch to Card View" : "Switch to Table View"}
         </button>
@@ -165,7 +165,7 @@ const Progress = () => {
             records.map((record, idx) => (
               <div
                 key={record._id}
-                className="border rounded-lg p-4 shadow hover:shadow-lg transition"
+                className="border border-green-300 rounded-lg p-4 shadow hover:shadow-xl transition"
               >
                 <p>
                   <strong>#{idx + 1}</strong>

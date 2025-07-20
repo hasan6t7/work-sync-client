@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
+import Loader from "../../../Components/Loader/Loader";
 
 const PaymentHistory = () => {
   const axiosSecure = useAxiosSecure();
@@ -38,7 +39,7 @@ const PaymentHistory = () => {
   const totalPages = Math.ceil(total / limit);
 
   if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return <Loader></Loader>;
   }
 
   return (
@@ -95,7 +96,7 @@ const PaymentHistory = () => {
             payments.map((p) => (
               <div
                 key={p._id}
-                className="border rounded p-4 shadow hover:shadow-md transition"
+                className="border border-green-300 rounded p-4 shadow hover:shadow-xl transition"
               >
                 <p>
                   <strong>Month:</strong> {p.month}

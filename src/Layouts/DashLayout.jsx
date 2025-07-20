@@ -19,7 +19,6 @@ const DashLayout = () => {
     );
   }
 
-  
   console.log("Role from DB:", role);
 
   return (
@@ -63,7 +62,7 @@ const DashLayout = () => {
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 space-y-1">
           {/* Logo */}
           <div
-            onClick={()=> navigate("/")}
+            onClick={() => navigate("/")}
             className="flex items-center gap-2 mb-4 cursor-pointer"
           >
             <img src={logo} alt="WorkSync Logo" className="h-10" />
@@ -74,7 +73,11 @@ const DashLayout = () => {
 
           {/* Universal Dashboard Home */}
           <li className="font-bold">
-            <NavLink to="/dashboard">
+            <NavLink
+              className={({ isActive }) => (isActive ? "text-green-500 " : "")}
+              to="/dashboard"
+              end
+            >
               <AiFillHome size={20} /> Dashboard Home
             </NavLink>
           </li>
@@ -83,12 +86,22 @@ const DashLayout = () => {
           {role === "Employee" && (
             <>
               <li className="font-bold">
-                <NavLink to="/dashboard/work-sheet">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500 " : ""
+                  }
+                  to="/dashboard/work-sheet"
+                >
                   <BsFileEarmarkText size={20} /> Work Sheet
                 </NavLink>
               </li>
               <li className="font-bold">
-                <NavLink to="/dashboard/payment-history">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500 " : ""
+                  }
+                  to="/dashboard/payment-history"
+                >
                   <FaMoneyCheckAlt size={20} /> Payment History
                 </NavLink>
               </li>
@@ -98,10 +111,24 @@ const DashLayout = () => {
           {role === "HR" && (
             <>
               <li className="font-bold">
-                <NavLink to="/dashboard/employee-list"><FaUsers size={20} /> Employee List</NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500 " : ""
+                  }
+                  to="/dashboard/employee-list"
+                >
+                  <FaUsers size={20} /> Employee List
+                </NavLink>
               </li>
               <li className="font-bold">
-                <NavLink to="/dashboard/progress"><TbProgress size={20} /> Progress</NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500 " : ""
+                  }
+                  to="/dashboard/progress"
+                >
+                  <TbProgress size={20} /> Progress
+                </NavLink>
               </li>
             </>
           )}
@@ -109,12 +136,22 @@ const DashLayout = () => {
           {role === "Admin" && (
             <>
               <li>
-                <NavLink to="/dashboard/all-employee-list">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500 " : ""
+                  }
+                  to="/dashboard/all-employee-list"
+                >
                   All Employee List
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/payroll">
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "text-green-500 " : ""
+                  }
+                  to="/dashboard/payroll"
+                >
                   Payroll
                 </NavLink>
               </li>

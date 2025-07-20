@@ -4,40 +4,72 @@ import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import Loader from "../Loader/Loader";
 
 const Navbar = () => {
   const { user, loading, LogOutUser } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   if (loading) {
-    return (
-      <p className="flex justify-center items-center font-bold text-3xl">
-        Loading....
-      </p>
-    );
+    return <Loader></Loader>;
   }
   const navlink = (
     <>
       <li>
-        <NavLink to={"/"}>Home</NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "text-green-500 border-b border-green-500" : ""
+          }
+          to={"/"}
+        >
+          Home
+        </NavLink>
       </li>
       {user ? (
         <>
           <li>
-            <NavLink to={"/dashboard"}>Dashboard</NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "text-green-500 border-b border-green-500" : ""
+              }
+              to={"/dashboard"}
+            >
+              Dashboard
+            </NavLink>
           </li>
           <li>
-            <NavLink to={"/contact"}>Contact Us</NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "text-green-500 border-b border-green-500" : ""
+              }
+              to={"/contact"}
+            >
+              Contact Us
+            </NavLink>
           </li>
         </>
       ) : (
         <>
           {" "}
           <li>
-            <NavLink to={"/login"}>Login</NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "text-green-500 border-b border-green-500" : ""
+              }
+              to={"/login"}
+            >
+              Login
+            </NavLink>
           </li>
           <li>
-            <NavLink to={"/register"}>Register</NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "text-green-500 border-b border-green-500" : ""
+              }
+              to={"/register"}
+            >
+              Register
+            </NavLink>
           </li>
         </>
       )}
@@ -105,13 +137,14 @@ const Navbar = () => {
               {navlink}
             </ul>
           </div>
-
-          <div className="flex items-center gap-1 cursor-pointer">
-            <img className="w-[40px] md:w-[60px]" src={logo} alt="logo" />
-            <h4 className="  text-lg md:text-3xl py-1 font-bold  bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-              <span className="">Work</span>Sync
-            </h4>
-          </div>
+          <Link to={"/"}>
+            <div className="flex items-center gap-1 cursor-pointer">
+              <img className="w-[40px] md:w-[60px]" src={logo} alt="logo" />
+              <h4 className="  text-lg md:text-3xl py-1 font-bold  bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+                <span className="">Work</span>Sync
+              </h4>
+            </div>
+          </Link>
         </div>
         <div
           className={

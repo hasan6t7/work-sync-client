@@ -9,6 +9,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import Loader from "../../../Components/Loader/Loader";
 
 const stripePromise = loadStripe(
   "pk_test_51Rht9cCDgmr0cnmnRZohc1lpKeIeQGLVtjtPbjUole83XZaJv0JyO92BsHAv0ApRGzhLkAPyg7kZ7NVoYqGOPI0x00fH6wzeoD"
@@ -62,7 +63,7 @@ const CheckoutForm = ({ payroll, onPaid }) => {
         });
       }
     } catch (err) {
-      toast.error(err);
+      toast.error(err.message || "Payment failed");
     } finally {
       setLoading(false);
     }
@@ -146,15 +147,21 @@ const PayrollPage = () => {
     document.getElementById("payment_modal").close();
   };
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (loading) return <Loader />;
+
+
+  const sortedPayrolls = [...payrolls].sort((a, b) => {
+    if (a.paid === b.paid) return 0;
+    return a.paid ? 1 : -1; // unpaid first
+  });
 
   return (
     <div className="max-w-5xl mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Payroll Requests</h2>
+      <div className="lg:flex lg:justify-between lg:items-center mb-4">
+        <h2 className="text-2xl font-bold mb-2 lg:mb-0">Payroll Requests</h2>
         <button
           onClick={() => setIsTableView(!isTableView)}
-          className="btn btn-primary btn-sm"
+          className="btn bg-green-500 btn-sm"
         >
           Switch to {isTableView ? "Card Grid View" : "Table View"}
         </button>
@@ -174,14 +181,14 @@ const PayrollPage = () => {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {payrolls.length === 0 ? (
+              {sortedPayrolls.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="text-center py-4 text-gray-500">
                     No payroll requests found.
                   </td>
                 </tr>
               ) : (
-                payrolls.map((p) => (
+                sortedPayrolls.map((p) => (
                   <tr key={p._id}>
                     <td className="px-4 py-2">{p.employee_name || "N/A"}</td>
                     <td className="px-4 py-2">${p.salary}</td>
@@ -218,13 +225,13 @@ const PayrollPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {payrolls.length === 0 ? (
+          {sortedPayrolls.length === 0 ? (
             <p className="text-gray-500">No payroll requests found.</p>
           ) : (
-            payrolls.map((p) => (
+            sortedPayrolls.map((p) => (
               <div
                 key={p._id}
-                className="border rounded-lg p-4 shadow hover:shadow-md transition"
+                className="border border-green-200 rounded-lg p-4 shadow hover:shadow-xl transition"
               >
                 <h3 className="text-lg font-semibold">
                   {p.employee_name || "N/A"}

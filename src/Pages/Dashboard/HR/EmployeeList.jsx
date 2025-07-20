@@ -93,8 +93,9 @@ const EmployeeList = () => {
           setPayEmp(null);
         }
       })
-      .catch(() => {
-        Swal.fire("Error", "Something went wrong", "error");
+      .catch((error) => {
+        const message = error.response?.data?.message || "Something went wrong";
+        Swal.fire("Error", message, "error");
       });
   };
 
@@ -105,7 +106,7 @@ const EmployeeList = () => {
       {/* Toggle Button */}
       <button
         onClick={() => setIsTableView(!isTableView)}
-        className="btn btn-primary mb-6"
+        className="btn bg-green-500 mb-6"
       >
         {isTableView ? "Switch to Card View" : "Switch to Table View"}
       </button>
@@ -181,7 +182,7 @@ const EmployeeList = () => {
           {empList.map((emp) => (
             <div
               key={emp._id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition"
+              className="border border-green-300 rounded-lg p-4 shadow hover:shadow-xl transition"
             >
               <h2 className="text-xl font-semibold mb-2">{emp.name}</h2>
               <p>
