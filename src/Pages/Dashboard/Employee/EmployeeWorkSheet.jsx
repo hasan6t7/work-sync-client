@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const EmployeeWorkSheet = () => {
   const { user } = useAuth();
@@ -160,6 +161,9 @@ const EmployeeWorkSheet = () => {
   return (
     <div className="max-w-5xl mx-auto p-4">
       <h2 className="text-xl font-semibold mb-4">Work Sheet</h2>
+      <Helmet>
+        <title>Work Sheet</title>
+      </Helmet>
 
       {/* View toggle button */}
       <div className="mb-4">

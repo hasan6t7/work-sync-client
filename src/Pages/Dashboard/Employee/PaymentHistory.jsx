@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
 import Loader from "../../../Components/Loader/Loader";
+import { Helmet } from "react-helmet";
 
 const PaymentHistory = () => {
   const axiosSecure = useAxiosSecure();
@@ -44,6 +45,9 @@ const PaymentHistory = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-4">
+      <Helmet>
+        <title>Payment History</title>
+      </Helmet>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">Payment History</h2>
         <button

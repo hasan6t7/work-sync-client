@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import { Helmet } from "react-helmet";
 
 const EmployeeList = () => {
   const [empList, setEmpList] = useState([]);
@@ -102,6 +103,9 @@ const EmployeeList = () => {
   return (
     <div>
       <h1 className="font-bold text-2xl mb-4">Employee List</h1>
+      <Helmet>
+        <title>Employee List</title>
+      </Helmet>
 
       {/* Toggle Button */}
       <button

@@ -10,6 +10,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
+import { Helmet } from "react-helmet";
 
 
 const EmployeeDetails = () => {
@@ -34,6 +35,9 @@ const EmployeeDetails = () => {
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-4">
+      <Helmet>
+        <title>Employee Details</title>
+      </Helmet>
       <div className="flex flex-col items-center gap-4 mb-8">
         <img
           src={employee.photo}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import Loader from "../../../Components/Loader/Loader";
+import { Helmet } from "react-helmet";
 
 const AllEmployeeList = () => {
   const axiosSecure = useAxiosSecure();
@@ -159,6 +160,9 @@ const AllEmployeeList = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-4">
+      <Helmet>
+        <title>All Employee</title>
+      </Helmet>
       {/* Adjust Salary Modal */}
       <dialog id="adjust_salary_modal" className="modal">
         <div className="modal-box">

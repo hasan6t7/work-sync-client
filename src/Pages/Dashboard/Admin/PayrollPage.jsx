@@ -10,6 +10,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import Loader from "../../../Components/Loader/Loader";
+import { Helmet } from "react-helmet";
 
 const stripePromise = loadStripe(
   "pk_test_51Rht9cCDgmr0cnmnRZohc1lpKeIeQGLVtjtPbjUole83XZaJv0JyO92BsHAv0ApRGzhLkAPyg7kZ7NVoYqGOPI0x00fH6wzeoD"
@@ -149,7 +150,6 @@ const PayrollPage = () => {
 
   if (loading) return <Loader />;
 
-
   const sortedPayrolls = [...payrolls].sort((a, b) => {
     if (a.paid === b.paid) return 0;
     return a.paid ? 1 : -1; // unpaid first
@@ -157,6 +157,9 @@ const PayrollPage = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-4">
+      <Helmet>
+        <title>Payroll</title>
+      </Helmet>
       <div className="lg:flex lg:justify-between lg:items-center mb-4">
         <h2 className="text-2xl font-bold mb-2 lg:mb-0">Payroll Requests</h2>
         <button

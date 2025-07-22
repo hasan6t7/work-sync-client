@@ -1,6 +1,7 @@
 import { useForm, ValidationError } from "@formspree/react";
 import Swal from "sweetalert2";
 import { useEffect, useRef } from "react";
+import { Helmet } from "react-helmet";
 
 const Contact = () => {
   const [state, handleSubmit] = useForm("mvgqzovw");
@@ -42,6 +43,9 @@ const Contact = () => {
 
   return (
     <div id="contact" className="my-20 px-4">
+      <Helmet>
+        <title>Contact</title>
+      </Helmet>
       <h1 className="text-3xl font-bold mb-10 text-center text-green-500">
         Contact Us
       </h1>

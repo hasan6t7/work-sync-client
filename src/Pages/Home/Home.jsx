@@ -4,10 +4,14 @@ import Services from "../../Components/Services/Services";
 import Testimonials from "../../Components/Testimonials/Testimonials";
 import Faq from "../../Components/FAQ/Faq";
 import CaseStudies from "../../Components/CaseStudies/CaseStudies";
+import { Helmet } from "react-helmet";
 
 const Home = () => {
   return (
     <div>
+      <Helmet>
+        <title>WorkSync</title>
+      </Helmet>
       <Banner></Banner>
       <Services></Services>
       <Testimonials></Testimonials>
