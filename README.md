@@ -44,5 +44,10 @@ It features a modern UI with smooth scroll-triggered animations and tools for pa
 
 ---
 
+- Admin login
+
+email- admin@worksync.com
+password- Admin@ws1
+
 
 
