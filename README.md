@@ -1,12 +1,48 @@
-# React + Vite
+# Work Sync
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Work Sync is a **role-based team management system** built for streamlined collaboration between **Admin, HR, and Employee** roles.  
+It features a modern UI with smooth scroll-triggered animations and tools for payroll, employee verification, and role management.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Demo
+[🔗 Visit Work Sync](https://work-syncc.web.app/)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📌 Key Features
+
+### 🔑 Role-Based Access Control
+- **Admin**
+  - Create and manage HR accounts
+  - Adjust employee salaries
+  - Full control over user roles and permissions
+- **HR**
+  - Verify and approve employee accounts
+  - Create additional HR accounts
+  - Manage employee details
+- **Employee**
+  - View personal profile and salary details
+  - Access assigned tasks and updates
+
+### 💼 Core Functionalities
+- User authentication & secure login
+- Payroll and salary adjustment system
+- Employee verification process
+- Smooth scroll animations for enhanced UX
+- Fully responsive for mobile, tablet, and desktop
+- Optimized for speed and performance
+
+---
+
+## 🛠️ Tech Stack
+
+<p align="left">
+  <img src="https://camo.githubusercontent.com/1eff0011bba9911dcfa1483a6d02a7a9fa5778460633e1ac0c346bc7c69d2b98/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d68746d6c2c6373732c6a732c72656163742c7461696c77696e642c6e6f64656a732c657870726573732c6d6f6e676f64622c66697265626173652c676974" alt="My Tech Stack" data-canonical-src="https://skillicons.dev/icons?i=html,css,js,react,tailwind,nodejs,express,mongodb,firebase,git" />
+</p>  
+**Hosting & Deployment:** Firebase Hosting  
+
+---
+
+
+
