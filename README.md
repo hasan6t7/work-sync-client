@@ -41,6 +41,9 @@ It features a modern UI with smooth scroll-triggered animations and tools for pa
 <p align="left">
   <img src="https://camo.githubusercontent.com/1eff0011bba9911dcfa1483a6d02a7a9fa5778460633e1ac0c346bc7c69d2b98/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d68746d6c2c6373732c6a732c72656163742c7461696c77696e642c6e6f64656a732c657870726573732c6d6f6e676f64622c66697265626173652c676974" alt="My Tech Stack" data-canonical-src="https://skillicons.dev/icons?i=html,css,js,react,tailwind,nodejs,express,mongodb,firebase,git" />
 </p>  
+
+
+
 **Hosting & Deployment:** Firebase Hosting  
   "dependencies": {
     "@formspree/react": "^3.0.0",
@@ -70,7 +73,7 @@ It features a modern UI with smooth scroll-triggered animations and tools for pa
     "swiper": "^11.2.10",
     "tailwindcss": "^4.1.11"
   },
----
+
 email- admin@worksync.com
 password- Admin@ws1
 ---
