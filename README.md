@@ -1,6 +1,6 @@
-# Work Sync
+Project Name :  **Work Sync
 
-Work Sync is a **role-based team management system** built for streamlined collaboration between **Admin, HR, and Employee** roles.  
+Overview : Work Sync is a **role-based team management system** built for streamlined collaboration between **Admin, HR, and Employee** roles.  
 It features a modern UI with smooth scroll-triggered animations and tools for payroll, employee verification, and role management.
 
 ---
@@ -9,6 +9,7 @@ It features a modern UI with smooth scroll-triggered animations and tools for pa
 [🔗 Visit Work Sync](https://work-syncc.web.app/)
 
 ---
+<img src="https://github.com/hasan6t7/e-services/blob/main/Screenshot%202025-08-09%20154932.png"  />
 
 ## 📌 Key Features
 
@@ -42,12 +43,23 @@ It features a modern UI with smooth scroll-triggered animations and tools for pa
 </p>  
 **Hosting & Deployment:** Firebase Hosting  
 
+email- admin@worksync.com
+password- Admin@ws1
 ---
+```bash
+git clone https://github.com/hasan6t7/e-services.git
+
+cd e-services
+
+npm install
+
+Setup your firebase env to .env.local
+
+npm run dev
 
 - Admin login
 
-email- admin@worksync.com
-password- Admin@ws1
+
 
 
 
