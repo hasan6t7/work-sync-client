@@ -1,4 +1,4 @@
-Project Name :  **Work Sync
+Project Name :  Work Sync
 
 Overview : Work Sync is a **role-based team management system** built for streamlined collaboration between **Admin, HR, and Employee** roles.  
 It features a modern UI with smooth scroll-triggered animations and tools for payroll, employee verification, and role management.
